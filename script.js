@@ -36,10 +36,25 @@ async function mirror_blp(data) {
 }
 
 
+function get_id() {
+    const value = blp_id.value.trim();
+    let id;
+    try {
+        const url = new URL(value);
+        id = url.searchParams.get("id") ?? "";
+    } catch {
+        id = value;
+    }
+    if (!/^[a-zA-Z0-9]{6}$/.test(id)) {
+        throw new Error(`Invalid blueprint ID: '${id}'.`);
+    }
+    return id;
+}
+
 
 mirror.onclick = async function() {
     p_status.textContent = "Loading...";
-    const current_id = blp_id.value;
+    const current_id = get_id();
     const blp_buffer = await downloadBlp(current_id);
     const new_buffer = await mirror_blp(blp_buffer);
     const result = await uploadBlp(new_buffer);
