@@ -13,7 +13,7 @@ async function downloadBlp(id) {
         "https://builderment-server.reddit2611.workers.dev/downloadBlp",
         { method: "POST", body: id }
     );
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}\nError: ${res.error}`);
     return res.arrayBuffer();
 }
 
@@ -22,7 +22,7 @@ async function uploadBlp(data) {
         "https://builderment-server.reddit2611.workers.dev/uploadBlp", 
         { method: "POST", body: data }
     );
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}\nError: ${res.error}`);
     return res.json();
 }
 
@@ -32,7 +32,7 @@ async function mirror_blp(data) {
         "https://builderment-blp.reddit2611.workers.dev/mirrorBlp",
         { method: "POST", body: data }
     );
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}\nError: ${res.error}`);
     return res.arrayBuffer();
 }
 
