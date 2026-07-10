@@ -1,3 +1,7 @@
+import {
+    uploadBlp, downloadBlp, mirrorBlp
+} from "https://builderment-blp.reddit2611.workers.dev/api.js";
+
 
 const blp_id = document.getElementById("blp_id");
 const mirror = document.getElementById("mirror");
@@ -6,35 +10,6 @@ const link = document.getElementById("link");
 const p_status = document.getElementById("status");
 
 
-
-
-async function downloadBlp(id) {
-    const res = await fetch(
-        "https://builderment-server.reddit2611.workers.dev/downloadBlp",
-        { method: "POST", body: id }
-    );
-    if (!res.ok) throw new Error(`HTTP ${res.status}\nError: ${res.error}`);
-    return res.arrayBuffer();
-}
-
-async function uploadBlp(data) {
-    const res = await fetch(
-        "https://builderment-server.reddit2611.workers.dev/uploadBlp", 
-        { method: "POST", body: data }
-    );
-    if (!res.ok) throw new Error(`HTTP ${res.status}\nError: ${res.error}`);
-    return res.json();
-}
-
-
-async function mirror_blp(data) {
-    const res = await fetch(
-        "https://builderment-blp.reddit2611.workers.dev/mirrorBlp",
-        { method: "POST", body: data }
-    );
-    if (!res.ok) throw new Error(`HTTP ${res.status}\nError: ${res.error}`);
-    return res.arrayBuffer();
-}
 
 
 function get_id() {
@@ -58,7 +33,7 @@ mirror.onclick = async function() {
     try {
         const current_id = get_id();
         const blp_buffer = await downloadBlp(current_id);
-        const new_buffer = await mirror_blp(blp_buffer);
+        const new_buffer = await mirrorBlp(blp_buffer);
         const result = await uploadBlp(new_buffer);
         txt_id.textContent = result.id;
         link.href = result.url;
@@ -66,7 +41,7 @@ mirror.onclick = async function() {
         p_status.innerHTML = "&nbsp;";
     } catch (err) {
         console.log(err);
-        p_status.innerHTML = "Error!";
+        p_status.innerHTML = `Error!<br>${err.message}`;
     }
 
 }
