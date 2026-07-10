@@ -10,7 +10,8 @@ const p_status = document.getElementById("status");
 
 async function downloadBlp(id) {
     const res = await fetch(
-        `https://builderment-server.reddit2611.workers.dev/downloadBlp?id=${id}`
+        "https://builderment-server.reddit2611.workers.dev/downloadBlp",
+        { method: "POST", body: id }
     );
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     return res.arrayBuffer();
@@ -28,7 +29,7 @@ async function uploadBlp(data) {
 
 async function mirror_blp(data) {
     const res = await fetch(
-        "https://builderment-blp.reddit2611.workers.dev",
+        "https://builderment-blp.reddit2611.workers.dev/mirrorBlp",
         { method: "POST", body: data }
     );
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -54,12 +55,18 @@ function get_id() {
 
 mirror.onclick = async function() {
     p_status.textContent = "Loading...";
-    const current_id = get_id();
-    const blp_buffer = await downloadBlp(current_id);
-    const new_buffer = await mirror_blp(blp_buffer);
-    const result = await uploadBlp(new_buffer);
-    txt_id.textContent = result.id;
-    link.href = result.url;
-    link.textContent = result.url;
-    p_status.innerHTML = "&nbsp;";
+    try {
+        const current_id = get_id();
+        const blp_buffer = await downloadBlp(current_id);
+        const new_buffer = await mirror_blp(blp_buffer);
+        const result = await uploadBlp(new_buffer);
+        txt_id.textContent = result.id;
+        link.href = result.url;
+        link.textContent = result.url;
+        p_status.innerHTML = "&nbsp;";
+    } catch (err) {
+        console.log(err);
+        p_status.innerHTML = "Error!";
+    }
+
 }
