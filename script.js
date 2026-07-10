@@ -1,7 +1,8 @@
+import {
+    uploadBlp, downloadBlp, mirrorBlp
+} from "https://builderment-blp.reddit2611.workers.dev/api.js";
+
 const WORKER = "https://builderment-blp.reddit2611.workers.dev";
-
-import {uploadBlp, downloadBlp, mirrorBlp} from `${WORKER}/api.js`;
-
 
 const blp_id = document.getElementById("blp_id");
 const mirror = document.getElementById("mirror");
