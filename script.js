@@ -1,6 +1,6 @@
-import {
-    uploadBlp, downloadBlp, mirrorBlp
-} from "https://builderment-blp.reddit2611.workers.dev/api.js";
+const WORKER = "https://builderment-blp.reddit2611.workers.dev";
+
+import {uploadBlp, downloadBlp, mirrorBlp} from `${WORKER}/api.js`;
 
 
 const blp_id = document.getElementById("blp_id");
@@ -32,9 +32,9 @@ mirror.onclick = async function() {
     p_status.textContent = "Loading...";
     try {
         const current_id = get_id();
-        const blp_buffer = await downloadBlp(current_id);
-        const new_buffer = await mirrorBlp(blp_buffer);
-        const result = await uploadBlp(new_buffer);
+        const blp_buffer = await downloadBlp(WORKER, current_id);
+        const new_buffer = await mirrorBlp(WORKER, blp_buffer);
+        const result = await uploadBlp(WORKER, new_buffer);
         txt_id.textContent = result.id;
         link.href = result.url;
         link.textContent = result.url;
