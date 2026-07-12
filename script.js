@@ -1,8 +1,8 @@
 import {
     uploadBlp, downloadBlp, mirrorBlp
-} from "https://builderment.crow73.workers.dev/api.js";
+} from "https://builderment.hcrow.workers.dev/api.js";
 
-const WORKER = "https://builderment.crow73.workers.dev";
+const WORKER = "https://builderment.hcrow.workers.dev";
 
 const blp_id = document.getElementById("blp_id");
 const mirror = document.getElementById("mirror");
